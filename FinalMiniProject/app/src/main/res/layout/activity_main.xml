@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kritika.miniproject.MainActivity"
+   >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
+        android:id="@+id/R1"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="10sp">
+        <ImageButton
+            android:id="@+id/btnFakeCall"
+            android:layout_width="150sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/call"
+            android:gravity="bottom|center_horizontal"
+
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_above="@+id/textView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fake a call"
+            android:textColor="#000000"
+            android:id="@+id/textView"
+            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/btnFakeCall"
+            android:layout_alignEnd="@+id/btnFakeCall" />
+
+        <ImageButton
+            android:id="@+id/btnLocation"
+            android:layout_width="150sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/location"
+            android:layout_marginLeft="20dp"
+            android:layout_alignTop="@+id/btnFakeCall"
+            android:layout_toRightOf="@+id/btnFakeCall"
+            android:layout_toEndOf="@+id/btnFakeCall"
+            android:layout_marginStart="20dp"
+            android:layout_alignBottom="@+id/btnFakeCall" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Location"
+            android:textColor="#000000"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/btnLocation"
+            android:layout_alignEnd="@+id/btnLocation"
+            android:layout_marginRight="26dp"
+            android:layout_marginEnd="26dp"
+            android:layout_below="@+id/btnLocation" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
+        android:id="@+id/R2"
+        android:layout_below="@+id/R1"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="10sp">
+        <ImageButton
+            android:id="@+id/btnPolice"
+            android:layout_width="150sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/police"
+            android:gravity="bottom|center_horizontal"
+
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_above="@+id/textView2"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call Police"
+            android:textColor="#000000"
+            android:id="@+id/textView2"
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/btnPolice"
+            android:layout_alignEnd="@+id/btnPolice" />
+
+        <ImageButton
+            android:id="@+id/btnBuzzer"
+            android:layout_width="150sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/buzz"
+            android:layout_marginLeft="20dp"
+            android:layout_alignTop="@+id/btnPolice"
+            android:layout_toRightOf="@+id/btnPolice"
+            android:layout_toEndOf="@+id/btnPolice"
+            android:layout_marginStart="20dp"
+            android:layout_alignBottom="@+id/btnPolice" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buzzer"
+            android:textColor="#000000"
+            android:layout_marginRight="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/btnBuzzer"
+            android:layout_alignEnd="@+id/btnBuzzer" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
