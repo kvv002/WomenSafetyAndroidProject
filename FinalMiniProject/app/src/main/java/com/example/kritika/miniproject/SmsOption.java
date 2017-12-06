@@ -28,11 +28,15 @@ public class SmsOption extends Fragment {
         //change R.layout.yourlayoutfilename for each of your fragments
         View view=inflater.inflate(R.layout.activity_sms_option, container, false);
         radioGroup = (RadioGroup)view.findViewById(R.id.radioGroup);
-        if(Option.equals("Option2"))
+        if(Option==null){
+            radioGroup.check(R.id.Option1);
+        }
+        else if(Option.equals("Option2"))
             radioGroup.check(R.id.Option2);
         else if(Option.equals("Option3"))
             radioGroup.check(R.id.Option3);
-        else radioGroup.check(R.id.Option1);
+        else if(Option.equals("Option1"))
+            radioGroup.check(R.id.Option1);
 
 
 

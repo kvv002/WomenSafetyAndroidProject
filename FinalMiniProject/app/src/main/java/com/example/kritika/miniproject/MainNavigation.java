@@ -39,6 +39,7 @@ static ImageView UserImage;
     static Bitmap bmp;
     DBHelper mydb;
 static String Option;
+
     String storedName,storedEmail,storedOption;
 
     SharedPreferences sharedpreferences;

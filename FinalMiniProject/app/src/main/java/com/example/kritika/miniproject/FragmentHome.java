@@ -175,10 +175,14 @@ public class FragmentHome extends Fragment {
 
                 else if(Option.equals("Option3")){
                     if(sendSms==false){
-                        ltext.setText("Stop Sending Location");
+                        ltext.setText("Stop Location");
 
                         sendSms=true;
+                        //for the first time
+                        //Intent locInt = new Intent(getActivity(), myLocation.class);
 
+                       // startActivityForResult(locInt, 99);
+                        sendSMSMessage();
                             Handler handler=new Handler();
 
                             Runnable runnable =new Runnable() {
@@ -186,9 +190,7 @@ public class FragmentHome extends Fragment {
                                 @Override
                                 public void run() {
                                     try {
-                                        Intent locInt = new Intent(getActivity(), myLocation.class);
-
-                                        startActivityForResult(locInt, 99);
+                                        sendSMSMessage();
                                         new Handler().postDelayed(this,60000); // 1 minute
                                     }
                                     catch (Exception e){
@@ -292,7 +294,16 @@ public class FragmentHome extends Fragment {
         it=0;
         Log.i("Send SMS", "");
        final SmsManager smsManager = SmsManager.getDefault();
+//first contact
+       if(UserList.size()>0) {
+           name = UserList.get(it).trim().split(" ");
+           phone = name[name.length - 1].trim();
+           Log.e("name", name[0]);
+           Log.e("ph", phone);
+           it++;
 
+           smsManager.sendTextMessage(phone, null, "Hey " + name[0] + ", This is an emergency...My Last Tracked Location: " + myLastLocation, null, null);
+       }
 
        // while (true) {
        Handler handler=new Handler();
@@ -314,18 +325,20 @@ public class FragmentHome extends Fragment {
 
                        TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 
+
                        // register PhoneStateListener
                        PhoneStateListener callStateListener = new PhoneStateListener() {
                            public void onCallStateChanged(int state, String incomingNumber) {
                                //  React to incoming call.
                               number = incomingNumber;
+                               Log.e("", number);
 
                            }
                        };
                        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);
 
                        if(!number.equals(phone))
-                         new Handler().postDelayed(this,300000); // 5 minutes
+                         new Handler().postDelayed(this,60000); // 1 minutes
                    }
                    it++;
 
@@ -341,7 +354,7 @@ public class FragmentHome extends Fragment {
 
            }
        };
-       handler.postDelayed(runnable,300000); //5 minutes
+       handler.postDelayed(runnable,60000); //1 minutes
 
 
 
