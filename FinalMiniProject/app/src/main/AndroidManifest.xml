@@ -62,7 +62,8 @@
 
         <activity android:name=".FakeCall" />
         <activity android:name=".UserForm" />
-        <activity android:name=".myLocation"></activity>
+        <activity android:name=".myLocation" />
+        <activity android:name=".SmsOption"></activity>
     </application>
 
 </manifest>

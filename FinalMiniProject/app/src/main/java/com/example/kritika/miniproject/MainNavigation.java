@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,8 +38,8 @@ static ImageView UserImage;
     static  TextView UserEmail;
     static Bitmap bmp;
     DBHelper mydb;
-
-    String storedName,storedEmail;
+static String Option;
+    String storedName,storedEmail,storedOption;
 
     SharedPreferences sharedpreferences;
 
@@ -52,6 +53,7 @@ static ImageView UserImage;
         sharedpreferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         storedName = sharedpreferences.getString("UserName",null);
         storedEmail= sharedpreferences.getString("UserEmail",null);
+        Option=sharedpreferences.getString("Option",null);
 
         mydb = new DBHelper(this);
         UserList = mydb.getAllCotacts();
@@ -159,7 +161,7 @@ static ImageView UserImage;
                  fragment = new FragmentHome();
                 break;
             case R.id.setting:
-                //fragment = new Menu3();
+                fragment = new SmsOption();
                 break;
         }
 

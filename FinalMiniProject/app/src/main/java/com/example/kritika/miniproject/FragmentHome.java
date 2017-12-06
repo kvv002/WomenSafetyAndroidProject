@@ -13,11 +13,13 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.TimeUtils;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,29 +35,34 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Set;
+import java.util.concurrent.RunnableFuture;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.example.kritika.miniproject.MainNavigation.UserList;
-
+import static com.example.kritika.miniproject.MainNavigation.Option;
 /**
  * Created by kritika on 25-11-2017.
  */
 
 public class FragmentHome extends Fragment {
+    String abc;
 
     static ArrayList<String> ContactList = new ArrayList<String>();
-    ImageButton callPolice, location, fakecall,buzzer;
+    ImageButton callPolice, location, fakecall, buzzer;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 9;
     Set<String> Phoneset;
     private static final int FC = 2;
     SharedPreferences sharedpreferences;
-    static boolean musicOn=false;
-
+    static boolean musicOn = false;
+    int it=0;
     MediaPlayer mediaPlayer;
 
     int resID;
 
     static String myLastLocation;
+    String[] name;
+    String phone;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
@@ -67,7 +74,7 @@ public class FragmentHome extends Fragment {
 
         fakecall = (ImageButton) view.findViewById(R.id.btnFakeCall);
 
-        buzzer=(ImageButton)view.findViewById(R.id.btnBuzzer);
+        buzzer = (ImageButton) view.findViewById(R.id.btnBuzzer);
 
 
         sharedpreferences = this.getActivity().getSharedPreferences("PhonePreferences", Context.MODE_PRIVATE);
@@ -83,20 +90,21 @@ public class FragmentHome extends Fragment {
         buzzer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
+                try {
 
-                    if(musicOn==false){
-                       // mediaPlayer.prepare();
+                    if (musicOn == false) {
+                        // mediaPlayer.prepare();
                         mediaPlayer = MediaPlayer.create(getActivity(), resID);
-                         mediaPlayer.start();
-                        musicOn=true;
-                    }
-                    else if (musicOn==true) {
+                        mediaPlayer.start();
+                        musicOn = true;
+                    } else if (musicOn == true) {
                         mediaPlayer.stop();
-                        musicOn=false;
+                        musicOn = false;
                     }
 
-                }catch(Exception e){e.printStackTrace();}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -146,9 +154,11 @@ public class FragmentHome extends Fragment {
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent locInt = new Intent(getActivity(), myLocation.class);
+                Toast.makeText(getActivity(), Option, Toast.LENGTH_LONG).show();
+               /* Intent locInt = new Intent(getActivity(), myLocation.class);
 
-                startActivityForResult(locInt, 99);
+                startActivityForResult(locInt, 99);*/
+              // sendSMSMessageWithDelay();
 
             }
 
@@ -170,12 +180,12 @@ public class FragmentHome extends Fragment {
             SmsManager smsManager = SmsManager.getDefault();
 
             for (int i = 0; i < UserList.size(); i++) {
-                String[] name = UserList.get(i).trim().split(" ");
-                String phone = name[name.length - 1].trim();
+                name = UserList.get(i).trim().split(" ");
+                phone = name[name.length - 1].trim();
                 Log.e("name", name[0]);
                 Log.e("ph", phone);
 
-                smsManager.sendTextMessage(phone, null, "Hey " + name[0] + ", This is an emergency...My Last Tracked Location: "+myLastLocation, null, null);
+                smsManager.sendTextMessage(phone, null, "Hey " + name[0] + ", This is an emergency...My Last Tracked Location: " + myLastLocation, null, null);
 
             }
 
@@ -194,18 +204,16 @@ public class FragmentHome extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 10
-        if (requestCode == 99 && data!=null) {
-            String getLocation=data.getStringExtra("mylocation");
+        if (requestCode == 99 && data != null) {
+            String getLocation = data.getStringExtra("mylocation");
 
-                myLastLocation=getLocation;
-
+            myLastLocation = getLocation;
 
 
         }
 
 
-
-        if(!UserList.isEmpty()) {
+        if (!UserList.isEmpty()) {
             String[] name = UserList.get(0).trim().split(" ");
             String phone = name[name.length - 1].trim();
 
@@ -224,12 +232,65 @@ public class FragmentHome extends Fragment {
                 e.printStackTrace();
             }
 
+
             sendSMSMessage();
-        }
-        else
+        } else
 
             Toast.makeText(getActivity(), "Emergency contact List is empty",
                     Toast.LENGTH_LONG).show();
 
     }
+
+
+   public void sendSMSMessageWithDelay() {
+        // TODO Auto-generated method stub
+        it=0;
+        Log.i("Send SMS", "");
+       final SmsManager smsManager = SmsManager.getDefault();
+
+
+
+       // while (true) {
+       Handler handler=new Handler();
+
+     Runnable runnable =new Runnable(){
+
+           @Override
+           public void run() {
+               try {
+
+                   if(it < UserList.size()) {
+                       name = UserList.get(it).trim().split(" ");
+                       phone = name[name.length - 1].trim();
+                       Log.e("name", name[0]);
+                       Log.e("ph", phone);
+
+                       smsManager.sendTextMessage(phone, null, "Hey " + name[0] + ", This is an emergency...My Last Tracked Location: " + myLastLocation, null, null);
+                       new Handler().postDelayed(this,300000); // 5 minutes
+                   }
+                   it++;
+
+                   Toast.makeText(getActivity(), "SMS Sent.",
+                           Toast.LENGTH_LONG).show();
+               } catch (Exception e) {
+                   Toast.makeText(getActivity(),
+                           "SMS faild, please try again.",
+                           Toast.LENGTH_LONG).show();
+                   e.printStackTrace();
+               }
+
+
+           }
+       };
+       handler.postDelayed(runnable,300000); //5 minutes
+
+
+
+
+
+
+
+
+        //}
+}
 }
