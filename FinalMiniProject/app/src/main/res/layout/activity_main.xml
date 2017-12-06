@@ -51,6 +51,7 @@
             android:layout_alignBottom="@+id/btnFakeCall" />
 
         <TextView
+            android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send Location"
